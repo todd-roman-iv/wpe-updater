@@ -31,9 +31,14 @@ on:
         default: "36"
         type: string
 
+concurrency:
+  group: wpengine-sheet-automation
+  cancel-in-progress: true
+
 jobs:
   run:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     env:
       WPE_API_BASIC: ${{ secrets.WPE_API_BASIC }}
       WPE_API_USER: ${{ secrets.WPE_API_USER }}
