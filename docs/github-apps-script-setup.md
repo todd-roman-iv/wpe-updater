@@ -73,7 +73,12 @@ Add:
 - `GITHUB_REF`: `main`
 - `GITHUB_WORKFLOW_FILE`: `wpengine-sheet.yml`
 
-The token needs permission to run Actions workflows for this repo.
+For a fine-grained GitHub token, select only this repo and grant:
+
+- `Actions`: read and write
+- `Metadata`: read
+
+Copy the token value immediately; GitHub will not show it again.
 
 ## 6. Use The Sheet Menu
 

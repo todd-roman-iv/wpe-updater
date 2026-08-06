@@ -139,23 +139,29 @@ function wpeSelectedEnvironment_() {
   const sheet = SpreadsheetApp.getActiveSheet();
   const range = sheet.getActiveRange();
   const row = range.getRow();
+  const column = range.getColumn();
   if (row < 3) {
     throw new Error('Select a data row first.');
   }
 
-  for (const block of WPE_ACCOUNT_BLOCKS) {
-    const site = String(sheet.getRange(row, block.startColumn + 1).getValue() || '').trim();
-    const environment = String(sheet.getRange(row, block.startColumn + 2).getValue() || '').trim();
-    if (environment) {
-      return {
-        account: block.account,
-        site: site,
-        environment: environment,
-      };
-    }
+  const selectedBlock = WPE_ACCOUNT_BLOCKS.find((block) => {
+    return column >= block.startColumn && column <= block.startColumn + 4;
+  });
+  if (!selectedBlock) {
+    throw new Error('Select a cell inside one account block first.');
   }
 
-  throw new Error('Could not find an environment name on the selected row.');
+  const site = String(sheet.getRange(row, selectedBlock.startColumn + 1).getValue() || '').trim();
+  const environment = String(sheet.getRange(row, selectedBlock.startColumn + 2).getValue() || '').trim();
+  if (environment) {
+    return {
+      account: selectedBlock.account,
+      site: site,
+      environment: environment,
+    };
+  }
+
+  throw new Error('Could not find an environment name in the selected account block.');
 }
 
 function wpePromptOptional_(ui, title, message) {
