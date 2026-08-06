@@ -1,0 +1,22 @@
+spreadsheet_id: "1EzOfYHiQUp8T7JJn0LGz8Fiw9i5Rv7HOM8s6orDKCnc"
+worksheet_name: "WPE Updates Q3 2026"
+first_data_row: 3
+last_data_row: 300
+
+# Each account uses a 5-column block:
+# counter, site name, environment name, status, PHP.
+# The account names are matched against WP Engine account name or nickname.
+accounts:
+  - name: sociusdms
+    start_column: A
+  - name: sociusdms2
+    start_column: F
+  - name: sociusdms3
+    start_column: K
+
+# Header rows match the quarterly update sheet pattern.
+write_headers: true
+
+# Preserve existing status values by default when the same environment is still present.
+# Run with --reset-status to blank the status column during a refresh.
+preserve_status: true

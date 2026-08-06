@@ -1,0 +1,17 @@
+.DS_Store
+.venv/
+__pycache__/
+*.pyc
+
+# Local credentials and machine-specific config
+google-service-account.json
+config.yml
+.env
+.env.*
+
+# Generated working files
+*.csv
+*.json
+!appsscript.json
+!config.example.yml
+!config.github.yml

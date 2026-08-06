@@ -1,0 +1,86 @@
+name: WP Engine Sheet Automation
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "Automation task to run"
+        required: true
+        type: choice
+        options:
+          - refresh_environments
+          - scan_dns
+          - prepare_updates
+          - dry_run_updates
+      account:
+        description: "Optional WP Engine account filter, for example sociusdms3"
+        required: false
+        type: string
+      environment:
+        description: "Optional environment filter, for example spartanewr"
+        required: false
+        type: string
+      include_critical:
+        description: "Include Critical Update Needed rows in update dry-runs"
+        required: false
+        default: false
+        type: boolean
+      max_backup_age_hours:
+        description: "Maximum completed backup age allowed by preflight"
+        required: false
+        default: "36"
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      WPE_API_BASIC: ${{ secrets.WPE_API_BASIC }}
+      WPE_API_USER: ${{ secrets.WPE_API_USER }}
+      WPE_API_PASSWORD: ${{ secrets.WPE_API_PASSWORD }}
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/google-service-account.json
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Write Google service account key
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          value = os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"]
+          Path(os.environ["GOOGLE_APPLICATION_CREDENTIALS"]).write_text(value, encoding="utf-8")
+          PY
+      - name: Run automation task
+        run: |
+          args=(
+            python scripts/run_github_task.py
+            --task "${{ inputs.task }}"
+            --config config.github.yml
+            --max-backup-age-hours "${{ inputs.max_backup_age_hours }}"
+          )
+          if [ -n "${{ inputs.account }}" ]; then
+            args+=(--account "${{ inputs.account }}")
+          fi
+          if [ -n "${{ inputs.environment }}" ]; then
+            args+=(--environment "${{ inputs.environment }}")
+          fi
+          if [ "${{ inputs.include_critical }}" = "true" ]; then
+            args+=(--include-critical)
+          fi
+          "${args[@]}"
+      - name: Upload generated CSV artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wpengine-sheet-artifacts
+          path: |
+            *.csv
+            !google-service-account.json
+          if-no-files-found: ignore

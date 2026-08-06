@@ -1,0 +1,15 @@
+spreadsheet_id: "1EzOfYHiQUp8T7JJn0LGz8Fiw9i5Rv7HOM8s6orDKCnc"
+worksheet_name: "WPE Updates Q3 2026"
+first_data_row: 3
+last_data_row: 300
+
+accounts:
+  - name: sociusdms
+    start_column: A
+  - name: sociusdms2
+    start_column: F
+  - name: sociusdms3
+    start_column: K
+
+write_headers: true
+preserve_status: true
