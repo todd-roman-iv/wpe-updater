@@ -9,7 +9,7 @@ from googleapiclient.discovery import build
 
 BASE = Path(__file__).resolve().parent
 SPREADSHEET_ID = "1EzOfYHiQUp8T7JJn0LGz8Fiw9i5Rv7HOM8s6orDKCnc"
-RANGE = "'WPE Updates Q3 2026'!A3:O300"
+RANGE = "'WPE Updates Q4 2026'!A3:O300"
 ACCOUNT_STARTS = {"sociusdms": 0, "sociusdms2": 5, "sociusdms3": 10}
 
 

@@ -20,7 +20,7 @@ class SheetValueTests(unittest.TestCase):
     def config(self):
         return SheetConfig(
             spreadsheet_id="sheet",
-            worksheet_name="WPE Updates Q3 2026",
+            worksheet_name="WPE Updates Q4 2026",
             first_data_row=3,
             last_data_row=5,
             accounts=[
@@ -227,7 +227,7 @@ class SheetValueTests(unittest.TestCase):
             {("alpha", "alpha"): "Plugin Update Error"},
         )
 
-        self.assertEqual(updates, [{"range": "'WPE Updates Q3 2026'!D3", "values": [["Plugin Update Error"]]}])
+        self.assertEqual(updates, [{"range": "'WPE Updates Q4 2026'!D3", "values": [["Plugin Update Error"]]}])
 
     def test_status_only_can_clear_missing_auto_statuses_when_requested(self):
         values = [
@@ -242,7 +242,7 @@ class SheetValueTests(unittest.TestCase):
             clear_missing_auto_statuses=True,
         )
 
-        self.assertEqual(updates, [{"range": "'WPE Updates Q3 2026'!D3", "values": [[""]]}])
+        self.assertEqual(updates, [{"range": "'WPE Updates Q4 2026'!D3", "values": [[""]]}])
 
 
 if __name__ == "__main__":

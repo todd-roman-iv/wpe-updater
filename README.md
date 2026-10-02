@@ -1,6 +1,6 @@
 # WP Engine Quarterly Updates Sheet Tool
 
-This tool fills the `WPE Updates Q3 2026` tab from WP Engine account/site data.
+This tool fills the `WPE Updates Q4 2026` tab from WP Engine account/site data.
 
 It can run locally from VS Code/Terminal or as a hybrid Google Sheets + GitHub
 Actions automation. For the Apps Script control panel and GitHub setup, see
